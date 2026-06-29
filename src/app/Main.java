@@ -1,34 +1,21 @@
 package app;
 
-import data.QuestionBank;
-import model.Quiz;
+import service.QuizService;
+
 /**
  * AeroQuiz
- * A Java CLI Quiz Application focused on Aerospace,
- * Programming, Data Structures, and Technology.
  *
- * Author: Priyansh Yadav
+ * Interactive Command Line Quiz Application
+ *
+ * Author : Priyansh Yadav
  * Version: 1.0.0
  */
 public class Main {
 
     public static void main(String[] args) {
 
-        Quiz[] quizzes = {
-                QuestionBank.getAerospaceQuiz(),
-                QuestionBank.getJavaQuiz(),
-                QuestionBank.getDSAQuiz(),
-                QuestionBank.getTechnologyQuiz()
-        };
+        QuizService quizService = new QuizService();
 
-        System.out.println("========== AeroQuiz ==========\n");
-
-        for (Quiz quiz : quizzes) {
-            System.out.println(quiz.getTitle());
-            System.out.println("Questions: " + quiz.getTotalQuestions());
-            System.out.println("------------------------------");
-        }
-
-        System.out.println("\nQuestion Bank Loaded Successfully!");
+        quizService.start();
     }
 }
