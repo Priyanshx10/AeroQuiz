@@ -14,10 +14,12 @@ import model.User;
 public class QuizService {
 
     private final Scanner scanner;
+    private final EvaluationService evaluationService;
     private Result result;
 
     public QuizService() {
         scanner = new Scanner(System.in);
+        evaluationService = new EvaluationService();
     }
 
     /**
@@ -29,27 +31,34 @@ public class QuizService {
 
         User user = createUser();
 
-        Quiz quiz = chooseQuiz();
+        boolean playAgain = true;
 
-        if (quiz == null) {
-            System.out.println("\nThank you for using AeroQuiz!");
-            scanner.close();
-            return;
+        while (playAgain) {
+
+            Quiz quiz = chooseQuiz();
+
+            if (quiz == null) {
+
+                goodbye();
+                return;
+            }
+
+            System.out.println("\n========================================");
+            System.out.println("Hello, " + user.getName() + "!");
+            System.out.println("Quiz Selected : " + quiz.getTitle());
+            System.out.println("Total Questions : " + quiz.getTotalQuestions());
+            System.out.println("========================================");
+
+            result = new Result();
+
+            conductQuiz(quiz);
+
+            displayResult(user, quiz);
+
+            playAgain = askPlayAgain();
         }
 
-        System.out.println("\n========================================");
-        System.out.println("Hello, " + user.getName() + "!");
-        System.out.println("Quiz Selected : " + quiz.getTitle());
-        System.out.println("Total Questions : " + quiz.getTotalQuestions());
-        System.out.println("========================================");
-
-        result = new Result();
-
-        conductQuiz(quiz);
-
-        displayResult(user, quiz);
-
-        scanner.close();
+        goodbye();
     }
 
     /**
@@ -225,8 +234,8 @@ public class QuizService {
      */
     private void displayResult(User user, Quiz quiz) {
 
-        result.calculatePercentage(quiz.getTotalQuestions());
-        result.calculateGrade();
+        // Evaluate the result
+        evaluationService.evaluate(result, quiz);
 
         System.out.println("\n========================================");
         System.out.println("             QUIZ RESULT");
@@ -248,25 +257,73 @@ public class QuizService {
 
         System.out.println("----------------------------------------");
 
+        // Use EvaluationService methods
         System.out.println("Score         : "
-                + result.getCorrectAnswers()
-                + "/"
-                + quiz.getTotalQuestions());
+                + evaluationService.getScore(result, quiz));
 
         System.out.printf("Percentage    : %.2f%%\n",
-                result.getPercentage());
+                evaluationService.getAccuracy(result));
 
         System.out.println("Grade         : "
                 + result.getGrade());
 
         System.out.println("========================================");
 
-        if (result.getPercentage() >= 60) {
+        if (evaluationService.hasPassed(result)) {
             System.out.println("Congratulations! You Passed!");
         } else {
             System.out.println("Keep Practicing! You'll Do Better!");
         }
 
+        System.out.println("========================================");
+    }
+
+    /**
+     * Asks the user if they want to play again.
+     */
+    private boolean askPlayAgain() {
+
+        while (true) {
+
+            System.out.println();
+            System.out.println("========================================");
+            System.out.println("Would you like to play again?");
+            System.out.println("1. Yes");
+            System.out.println("2. Exit");
+            System.out.println("========================================");
+
+            System.out.print("Enter choice: ");
+
+            String choice = scanner.nextLine().trim();
+
+            switch (choice) {
+
+                case "1":
+                    return true;
+
+                case "2":
+                    return false;
+
+                default:
+                    System.out.println("\nInvalid choice. Try again.");
+            }
+        }
+    }
+
+    /**
+     * Displays goodbye message.
+     */
+    private void goodbye() {
+
+        System.out.println();
+        System.out.println("========================================");
+        System.out.println("      Thank You For Using AeroQuiz");
+        System.out.println("========================================");
+        System.out.println("Keep Learning.");
+        System.out.println("Keep Building.");
+        System.out.println("Keep Exploring.");
+        System.out.println();
+        System.out.println("Goodbye!");
         System.out.println("========================================");
     }
 }
