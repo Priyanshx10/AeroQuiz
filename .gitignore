@@ -1,26 +1,13 @@
-# Java
-*.class
-
-# Build output
-out/
-bin/
-target/
-
-# VS Code
-.vscode/
-
-# OS files
-.DS_Store
-Thumbs.db
-
 # ============================
 # Gradle
 # ============================
 
 .gradle/
 build/
+out/
+
+# Keep the Gradle wrapper
 !gradle/wrapper/gradle-wrapper.jar
-gradle-app.setting
 
 # ============================
 # Java
@@ -56,9 +43,8 @@ Thumbs.db
 *.log
 
 # ============================
-# Temporary files
+# Other build directories
 # ============================
 
-out/
 bin/
 target/
