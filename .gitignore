@@ -36,6 +36,7 @@ hs_err_pid*
 .DS_Store
 Thumbs.db
 
+<<<<<<< HEAD
 # ============================
 # Logs
 # ============================
@@ -48,3 +49,17 @@ Thumbs.db
 
 bin/
 target/
+=======
+.gradle/
+build/
+out/
+
+*.class
+*.log
+
+.idea/
+.vscode/
+
+.DS_Store
+Thumbs.db
+>>>>>>> 152a63a (Clean up .gitignore)
