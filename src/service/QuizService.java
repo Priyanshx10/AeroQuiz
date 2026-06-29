@@ -29,27 +29,34 @@ public class QuizService {
 
         User user = createUser();
 
-        Quiz quiz = chooseQuiz();
+        boolean playAgain = true;
 
-        if (quiz == null) {
-            System.out.println("\nThank you for using AeroQuiz!");
-            scanner.close();
-            return;
+        while (playAgain) {
+
+            Quiz quiz = chooseQuiz();
+
+            if (quiz == null) {
+
+                goodbye();
+                return;
+            }
+
+            System.out.println("\n========================================");
+            System.out.println("Hello, " + user.getName() + "!");
+            System.out.println("Quiz Selected : " + quiz.getTitle());
+            System.out.println("Total Questions : " + quiz.getTotalQuestions());
+            System.out.println("========================================");
+
+            result = new Result();
+
+            conductQuiz(quiz);
+
+            displayResult(user, quiz);
+
+            playAgain = askPlayAgain();
         }
 
-        System.out.println("\n========================================");
-        System.out.println("Hello, " + user.getName() + "!");
-        System.out.println("Quiz Selected : " + quiz.getTitle());
-        System.out.println("Total Questions : " + quiz.getTotalQuestions());
-        System.out.println("========================================");
-
-        result = new Result();
-
-        conductQuiz(quiz);
-
-        displayResult(user, quiz);
-
-        scanner.close();
+        goodbye();
     }
 
     /**
@@ -267,6 +274,55 @@ public class QuizService {
             System.out.println("Keep Practicing! You'll Do Better!");
         }
 
+        System.out.println("========================================");
+    }
+
+    /**
+     * Asks the user if they want to play again.
+     */
+    private boolean askPlayAgain() {
+
+        while (true) {
+
+            System.out.println();
+            System.out.println("========================================");
+            System.out.println("Would you like to play again?");
+            System.out.println("1. Yes");
+            System.out.println("2. Exit");
+            System.out.println("========================================");
+
+            System.out.print("Enter choice: ");
+
+            String choice = scanner.nextLine().trim();
+
+            switch (choice) {
+
+                case "1":
+                    return true;
+
+                case "2":
+                    return false;
+
+                default:
+                    System.out.println("\nInvalid choice. Try again.");
+            }
+        }
+    }
+
+    /**
+     * Displays goodbye message.
+     */
+    private void goodbye() {
+
+        System.out.println();
+        System.out.println("========================================");
+        System.out.println("      Thank You For Using AeroQuiz");
+        System.out.println("========================================");
+        System.out.println("Keep Learning.");
+        System.out.println("Keep Building.");
+        System.out.println("Keep Exploring.");
+        System.out.println();
+        System.out.println("Goodbye!");
         System.out.println("========================================");
     }
 }
