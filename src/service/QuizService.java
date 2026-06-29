@@ -14,10 +14,12 @@ import model.User;
 public class QuizService {
 
     private final Scanner scanner;
+    private final EvaluationService evaluationService;
     private Result result;
 
     public QuizService() {
         scanner = new Scanner(System.in);
+        evaluationService = new EvaluationService();
     }
 
     /**
@@ -232,8 +234,8 @@ public class QuizService {
      */
     private void displayResult(User user, Quiz quiz) {
 
-        result.calculatePercentage(quiz.getTotalQuestions());
-        result.calculateGrade();
+        // Evaluate the result
+        evaluationService.evaluate(result, quiz);
 
         System.out.println("\n========================================");
         System.out.println("             QUIZ RESULT");
@@ -255,20 +257,19 @@ public class QuizService {
 
         System.out.println("----------------------------------------");
 
+        // Use EvaluationService methods
         System.out.println("Score         : "
-                + result.getCorrectAnswers()
-                + "/"
-                + quiz.getTotalQuestions());
+                + evaluationService.getScore(result, quiz));
 
         System.out.printf("Percentage    : %.2f%%\n",
-                result.getPercentage());
+                evaluationService.getAccuracy(result));
 
         System.out.println("Grade         : "
                 + result.getGrade());
 
         System.out.println("========================================");
 
-        if (result.getPercentage() >= 60) {
+        if (evaluationService.hasPassed(result)) {
             System.out.println("Congratulations! You Passed!");
         } else {
             System.out.println("Keep Practicing! You'll Do Better!");
