@@ -1,65 +1,28 @@
-# ============================
 # Gradle
-# ============================
-
 .gradle/
 build/
-out/
-
-# Keep the Gradle wrapper
 !gradle/wrapper/gradle-wrapper.jar
 
-# ============================
 # Java
-# ============================
-
 *.class
 *.jar
 *.war
 *.ear
 hs_err_pid*
+out/
+bin/
+target/
 
-# ============================
 # IDE
-# ============================
-
 .idea/
 .vscode/
 *.iml
 *.ipr
 *.iws
 
-# ============================
-# OS
-# ============================
-
-.DS_Store
-Thumbs.db
-
-<<<<<<< HEAD
-# ============================
 # Logs
-# ============================
-
 *.log
 
-# ============================
-# Other build directories
-# ============================
-
-bin/
-target/
-=======
-.gradle/
-build/
-out/
-
-*.class
-*.log
-
-.idea/
-.vscode/
-
+# OS
 .DS_Store
 Thumbs.db
->>>>>>> 152a63a (Clean up .gitignore)
